@@ -84,7 +84,11 @@ def extract_stats(stats_file):
         stats['dram1_avg_wr_bw'] = (dram1_avg_wr_bw[0] / 1048576, "MB/s") # Convert B/s to MB/s
     else:
         stats['dram1_avg_wr_bw'] = (None, "MB/s")
-
+    dram1_bus_util = extract_stat(content, r"system\.mem_ctrl1\.dram\.busUtil\s+([\d\.]+)"), "%"
+    if dram1_bus_util[0] is not None:
+        stats['dram1_bus_util'] = (dram1_bus_util[0], "%") # Convert B/s to MB/s
+    else:
+        stats['dram1_bus_util'] = (None, "%")
     # DRAM Statistics (Mem_ctrl2)
     dram2_avg_mem_acc_lat = extract_stat(content, r"system\.mem_ctrl2\.dram\.avgMemAccLat\s+([\d\.]+)"), "ns"
     if dram2_avg_mem_acc_lat[0] is not None:
@@ -103,6 +107,12 @@ def extract_stats(stats_file):
         stats['dram2_avg_wr_bw'] = (dram2_avg_wr_bw[0] / 1048576, "MB/s") # Convert B/s to MB/s
     else:
         stats['dram2_avg_wr_bw'] = (None, "MB/s")
+
+    dram2_bus_util = extract_stat(content, r"system\.mem_ctrl2\.dram\.busUtil\s+([\d\.]+)"), "%"
+    if dram2_bus_util[0] is not None:
+        stats['dram2_bus_util'] = (dram2_bus_util[0], "%") # Convert B/s to MB/s
+    else:
+        stats['dram2_bus_util'] = (None, "%")
 
     return stats
 
